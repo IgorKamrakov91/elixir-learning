@@ -32,20 +32,14 @@ end
 
 CowInterrogator.interrogate()
 
-# Todo: uncomment tests if need
-#ExUnit.start
-#defmodule InputOutputTest do
-#  use ExUnit.Case
-#  import String
-#
-#  test "chec" do
-#
-#  end
-#
-#  test "checks if cow_art returns string from support/cow.txt" do
-#    # this call checks if cow_art function returns art from txt file
-#    art = CowInterrogator.cow_art
-#    assert trim(art) |> first == "(" # first is implemented in String module
-#  end
-#end
+ExUnit.start
+defmodule InputOutputTest do
+ use ExUnit.Case
+ import String
 
+ test "checks if cow_art returns string from support/cow.txt" do
+   # this call checks if cow_art function returns art from txt file
+   art = CowInterrogator.cow_art
+   assert trim(art) |> first == "(" # first is implemented in String module
+ end
+end
