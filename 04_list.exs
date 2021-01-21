@@ -1,7 +1,8 @@
-ExUnit.start()
+
+ExUnit.start
 
 defmodule ListTest do
-  use ExUnit.case
+  use ExUnit.Case, async: true
 
   def sample() do
     ["Tim", "Jen", "Mac", "Kai"]
@@ -19,5 +20,15 @@ defmodule ListTest do
   test "tail" do
     [_ | tail] = sample()
     assert tail == ~w(Jen Mac Kai)
+  end
+
+  test "last item" do
+    assert List.last(sample()) == "Kai"
+  end
+
+  test "delete item" do
+    assert List.delete(sample(), "Mac") == ~w(Tim Jen Kai)
+    # remove first occurence
+    assert List.delete([1,2,2,3,4], 2) == [1,2,3,4]
   end
 end
