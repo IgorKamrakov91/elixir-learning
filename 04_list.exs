@@ -55,4 +55,12 @@ defmodule ListTest do
     some = for n <- sample(), String.first(n) < "M", do: n <> " Morgan"
     assert some == ["Jen Morgan", "Kai Morgan"]
   end
+
+  test "Enum reverse speed" do
+    {microsec, reversed} = :timer.tc fn ->
+      Enum.reverse 1..100_000
+    end
+    assert reversed == Enum.to_list(100_000..1)
+    IO.puts "Enum reverse took #{microsec} microsecs"
+  end
 end
