@@ -31,4 +31,10 @@ defmodule ListTest do
     # remove first occurence
     assert List.delete([1,2,2,3,4], 2) == [1,2,3,4]
   end
+
+  test "List fordr" do
+    list = [20, 10, 5, 2.5]
+    sum = Enum.reduce list, 0, fn (num, sum) -> num + sum end
+    assert sum == 37.5
+  end
 end
