@@ -9,7 +9,7 @@ defmodule MapTest do
 
   test "Map.get" do
     assert Map.get(sample(), :foo) == 'bar'
-    assert Map.get(sample, :not_exists) == nil
+    assert Map.get(sample(), :not_exists) == nil
   end
 
   test "[]" do
@@ -27,11 +27,18 @@ defmodule MapTest do
   test "Map.fetch" do
     {:ok, val} = Map.fetch(sample(), :foo)
     assert val == 'bar'
-    :error = Map.fetch(sample, :not_exists)
+    :error = Map.fetch(sample(), :not_exists)
   end
 
   test "Map.put" do
     assert Map.put(sample(), :foo, 'bob') == %{foo: 'bob', baz: 'quz'}
     assert Map.put(sample(), :far, 'bar') == %{foo: 'bar', baz: 'quz', far: 'bar'}
   end
+
+  test "Map.values" do
+    # Map does not preserve order of keys, thus we Enum.sort
+    assert Enum.sort(Map.values(sample())) == ['bar', 'quz']
+  end
+
+  text
 end
