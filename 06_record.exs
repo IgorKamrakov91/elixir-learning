@@ -40,4 +40,10 @@ defmodule RecordTest do
   test "protocol" do
     assert to_string(sample()) == "kai@example.com"
   end
+
+  test "update" do
+    user = sample()
+    user2 = %User{user | email: "tim@example.com"}
+    assert user2 == %User{email: "tim@example.com", password: "trains"}
+  end
 end
