@@ -23,4 +23,15 @@ defmodule MapTest do
       assert sample().not_exists
     end
   end
+
+  test "Map.fetch" do
+    {:ok, val} = Map.fetch(sample(), :foo)
+    assert val == 'bar'
+    :error = Map.fetch(sample, :not_exists)
+  end
+
+  test "Map.put" do
+    assert Map.put(sample(), :foo, 'bob') == %{foo: 'bob', baz: 'quz'}
+    assert Map.put(sample(), :far, 'bar') == %{foo: 'bar', baz: 'quz', far: 'bar'}
+  end
 end
