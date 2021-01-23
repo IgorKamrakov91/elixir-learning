@@ -32,4 +32,12 @@ defmodule RecordTest do
   test "defstruct" do
     assert sample() == %{__struct__: User, email: "kai@example.com", password: "trains"}
   end
+
+  test "email" do
+    assert sample().email == "kai@example.com"
+  end
+
+  test "protocol" do
+    assert to_string(sample()) == "kai@example.com"
+  end
 end
