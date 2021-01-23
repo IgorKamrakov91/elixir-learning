@@ -10,4 +10,18 @@ defimpl String.Chars, for: User do
   end
 end
 
+defmodule RecordTest do
+  use ExUnit.Case
 
+  defmodule ScopeTest do
+    use ExUnit.Case
+
+    require Record
+    Record.defrecordp :person, first_name: nil, last_name: nil, age: nil
+
+    test "defrecordp" do
+      person = person(first_name: "Kai", last_name: "Morgan", age: 5) # regular function call
+      assert person == {:person, "Kai", "Morgan", 5} # just a tuple!
+    end
+  end
+end
