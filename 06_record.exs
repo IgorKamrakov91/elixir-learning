@@ -24,4 +24,12 @@ defmodule RecordTest do
       assert person == {:person, "Kai", "Morgan", 5} # just a tuple!
     end
   end
+
+  def sample do
+    %User{email: "kai@example.com", password: "trains"} # special % syntax for struct creation
+  end
+
+  test "defstruct" do
+    assert sample() == %{__struct__: User, email: "kai@example.com", password: "trains"}
+  end
 end
