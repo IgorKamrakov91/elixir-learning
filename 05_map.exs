@@ -7,8 +7,20 @@ defmodule MapTest do
     %{foo: 'bar', baz: 'quz'}
   end
 
-  def "Map.get" do
+  test "Map.get" do
     assert Map.get(sample(), :foo) == 'bar'
     assert Map.get(sample, :not_exists) == nil
+  end
+
+  test "[]" do
+    assert sample()[:foo] == 'bar'
+    assert sample()[:not_exists] == nil
+  end
+
+  test "." do
+    assert sample().foo == 'bar'
+    assert_raise KeyError, fn ->
+      assert sample().not_exists
+    end
   end
 end
