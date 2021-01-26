@@ -52,7 +52,9 @@ defmodule Subnet do
     wait(%{}, Enum.count(all))
   end
 
-  def ips do
+  def ips(subnet) do
+    subnet = Regex.run(~r/^\d+\.\d+\.\d+\./, subnet) |> Enum.at(0)
+    Enum.to_list(1..254) |> Enum.map(fn i -> "#{subnet}#{i}" end)
   end
 
   def wait do
