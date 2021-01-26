@@ -29,6 +29,12 @@ defmodule Ping do
   end
 
   def ping_args(ip) do
+    wait_opt = if darwin?(), do: "-W", else: "-w"
+    ["-c", "1", wait_opt, "5", "-s", "1", ip]
+  end
 
+  def darwin? do
+    {output, 0} = System.cmd("uname", [])
+    String.trim_trailing(output) == "Darwin"
   end
 end
