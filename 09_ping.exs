@@ -83,4 +83,15 @@ case System.argv do
     |> IO.puts
   _ ->
     ExUnit.start()
+
+  defmodule SubnetTest do
+    use ExUnit.Case
+
+    test "ips" do
+      ips = Subnet.ips("192.168.1.x")
+      assert Enum.count(ips) == 254
+      assert Enum.at(ips, 0) == "192.168.1.1"
+      assert Enum.at(ips, 253) == "192.168.1.253"
+    end
+  end
 end
