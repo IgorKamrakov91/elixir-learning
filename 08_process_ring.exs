@@ -29,4 +29,19 @@ defmodule Spawner do
     send(foo, {[bar, baz, foo], "start", 0})
     wait([foo, bar, baz])
   end
+
+  @doc "Waits for all processes to finish before exiting."
+  def wait(pids) do
+    IO.puts("waiting for pids #{inspect(pids)}")
+
+    receive do
+      {:DOWN, _, _, pid, _} ->
+        IO.puts("#{inspect(pid)} quit")
+        pids = List.delete(pids, pid)
+
+        unless Enum.any?(pids) do
+          wait(pids)
+        end
+    end
+  end
 end
