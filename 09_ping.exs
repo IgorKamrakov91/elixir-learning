@@ -57,6 +57,16 @@ defmodule Subnet do
     Enum.to_list(1..254) |> Enum.map(fn i -> "#{subnet}#{i}" end)
   end
 
-  def wait do
+  def wait(results, 0), do: results
+
+  def wait(results, remaining) do
+    receive do
+      {:ok, ip, pingable?} ->
+        results = Map.put(results, ip, pingable?)
+        wait(results, remaining - 1)
+      {:error, ip, error} ->
+        IO.puts("#{inspect(error)} for #{ip}")
+        wait(results, remaining - 1)
+    end
   end
 end
