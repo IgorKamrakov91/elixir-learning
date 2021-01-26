@@ -22,7 +22,7 @@ end
 
 defmodule Spawner do
   def start do
-    limit = 5
+    limit = 8
     {foo, _foo_monitor} = spawn_monitor(Pinger, :ping, ["ping", limit])
     {bar, _bar_monitor} = spawn_monitor(Pinger, :ping, ["pong", limit])
     {baz, _baz_monitor} = spawn_monitor(Pinger, :ping, ["pung", limit])
@@ -45,3 +45,5 @@ defmodule Spawner do
     end
   end
 end
+
+Spawner.start()
