@@ -38,3 +38,23 @@ defmodule Ping do
     String.trim_trailing(output) == "Darwin"
   end
 end
+
+defmodule Subnet do
+  # Ping all IPs in a class-C subnet and return a map with results.
+
+  def ping(subnet) do
+    all = ips(subnet)
+
+    Enum.each(all, fn ip ->
+      Task.start(Ping, :ping_async, [ip, self()])
+    end)
+
+    wait(%{}, Enum.count(all))
+  end
+
+  def ips do
+  end
+
+  def wait do
+  end
+end
