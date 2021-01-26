@@ -64,9 +64,23 @@ defmodule Subnet do
       {:ok, ip, pingable?} ->
         results = Map.put(results, ip, pingable?)
         wait(results, remaining - 1)
+
       {:error, ip, error} ->
         IO.puts("#{inspect(error)} for #{ip}")
         wait(results, remaining - 1)
     end
   end
+end
+
+case System.argv do
+  [subnet] ->
+    results = Subnet.ping(subnet)
+    results
+    |> Enum.filter(fn {_ip, exists} -> exists end)
+    |> Enum.map(fn {ip, _} -> ip end)
+    |> Enum.sort()
+    |> Enum.join("\n")
+    |> IO.puts
+  _ ->
+    ExUnit.start()
 end
