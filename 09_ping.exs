@@ -17,7 +17,18 @@ defmodule Ping do
     send(parend, run_ping(ip))
   end
 
+  # Ping single IP address
   def run_ping(ip) do
-    
+    try do
+      {cmd_output, _} = System.cmd("ping", ping_args(ip))
+      alive? = not Regex.match?(~r/100(\.0)?% packet loss/, cmd_output)
+      {:ok, ip, alive?}
+    rescue
+      error -> {:error, ip, error}
+    end
+  end
+
+  def ping_args(ip) do
+
   end
 end
