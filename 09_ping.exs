@@ -14,7 +14,7 @@ defmodule Ping do
   """
 
   def ping_async(ip, parent) do
-    send(parend, run_ping(ip))
+    send(parent, run_ping(ip))
   end
 
   # Ping single IP address
