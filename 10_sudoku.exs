@@ -1,4 +1,4 @@
-defmodule Sudoku do
+defmodule SudokuBoard do
   import Enum
 
   def solved?(board) do
@@ -23,4 +23,17 @@ defmodule Sudoku do
   end
 
   defp do_cols_solved?(_, -1), do: true
+end
+
+ExUnit.start()
+
+defmodule SudokuBoardTest do
+  use ExUnit.Case
+
+  import SudokuBoard
+
+  test "solved? on solved board" do
+    board = [[1,2], [2,1]]
+    assert solved?(board)
+  end
 end
