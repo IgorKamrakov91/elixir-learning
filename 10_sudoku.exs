@@ -33,7 +33,15 @@ defmodule SudokuBoardTest do
   import SudokuBoard
 
   test "solved? on solved board" do
-    board = [[1,2], [2,1]]
+    board = [[1, 2], [2, 1]]
     assert solved?(board)
+  end
+
+  test "solved? on not solved board" do
+    board = [[1, 1], [2, 1]]
+    assert not solved?(board)
+
+    board = [[2, 1], [2, 1]]
+    assert not solved?(board)
   end
 end
