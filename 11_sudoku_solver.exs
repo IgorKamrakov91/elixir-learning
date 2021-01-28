@@ -1,14 +1,17 @@
 defmodule SudokuSolver do
   @doc """
   Given a list of possibilities for each row, return all possible combinations.
+  ## Example
+    iex> SudokuSolver.combinations([[1], [2], [3, 4]])
+    [[1, 2, 3, 4], [1, 2, 4, 3]]
   """
-  def combinations([]), do: [[]]
   def combinations([list | rest]) do
     crest = combinations(rest)
-    for perm <- permutations(list), res <- crest do
-      List.flatten([perm | res])
+    for p <- permutations(list), r <- crest do
+      List.flatten([p | r])
     end
   end
+  def combinations([]), do: [[]]
 
   @doc """
   Return all possible permuations of a list.
@@ -16,9 +19,9 @@ defmodule SudokuSolver do
     iex> SudokuSolver.permutations([1,2,3])
     [[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]]
   """
-  def permutations([]), do: []
+  def permutations([]), do: [[]]
   def permutations(list) do
-    for head <- list, tail <- permutations(list -- [head]), do: [head | tail]
+    for h <- list, t <- permutations(list -- [h]), do: [h | t]
   end
 end
 
@@ -29,6 +32,7 @@ defmodule SudokuSolverTest do
   import SudokuSolver
 
   test "correct behavior of combinations" do
+    assert combinations([[1]]) == [[1]]
     assert combinations([[2, 3], [1]]) == [[2, 3, 1], [3, 2, 1]]
     assert combinations([[1], [2], [3, 4]]) == [[1, 2, 3, 4], [1, 2, 4, 3]]
   end
