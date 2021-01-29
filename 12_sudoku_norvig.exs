@@ -13,6 +13,22 @@ defmodule SudokuSolver do
   defmodule Board do
     defstruct squares: nil, units: nil, peers: nil
   end
+
+  def cross(list_a, list_b) do
+    for a <- list_a, b <- list_b do
+      [a] ++ [b]
+    end
+  end
+
+  @doc "Return all squares"
+  def squares, do: cross(@rows, @cols)
+
+
+  def unit_list do
+    (for c <- @cols, do: cross(@rows, [c])) ++
+    (for r <- @rows, do: cross([r], @cols)) ++
+    (for rs <- chunk_every(@rows, 3), cs <- chunk_every(@cols, 3), do: cross(rs,cs))
+  end
 end
 
 ExUnit.start()
