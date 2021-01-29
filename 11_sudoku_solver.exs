@@ -1,4 +1,4 @@
-Code.load_file("./10-sudoku-board.exs")
+Code.require_file("10_sudoku.exs", "./")
 
 defmodule SudokuSolver do
   import Enum
