@@ -10,6 +10,15 @@ defmodule SudokuSolver do
     |> find(fn b -> SudokuBoard.solved?(b) end)
   end
 
+  def apply_solution(board, [first | rest]) do
+    size = count(board)
+    board = List.flatten(board)
+    pos = find_index(board, fn col -> col == nil end)
+
+    List.replace_at(board, pos, first)
+    |> chunk_every(size)
+    |> apply_solution(rest)
+  end
 
   @doc """
   Given a list of possibilities for each row, return all possible combinations.
@@ -19,10 +28,12 @@ defmodule SudokuSolver do
   """
   def combinations([list | rest]) do
     crest = combinations(rest)
+
     for p <- permutations(list), r <- crest do
       List.flatten([p | r])
     end
   end
+
   def combinations([]), do: [[]]
 
   @doc """
@@ -32,6 +43,7 @@ defmodule SudokuSolver do
     [[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]]
   """
   def permutations([]), do: [[]]
+
   def permutations(list) do
     for h <- list, t <- permutations(list -- [h]), do: [h | t]
   end
