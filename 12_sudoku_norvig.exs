@@ -1,3 +1,20 @@
+defmodule SudokuSolver do
+  @moduledoc """
+  Solves 9x9 Sudoku puzzles, Peter Norvig style.
+  http://norvig.com/sudoku.html
+  """
+
+  @size 9
+  @rows 'ABCDEFGHI'
+  @cols '123456789'
+
+  import Enum
+
+  defmodule Board do
+    defstruct squares: nil, units: nil, peers: nil
+  end
+end
+
 ExUnit.start()
 
 defmodule SudokuSolverTest do
