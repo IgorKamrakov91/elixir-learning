@@ -1,4 +1,16 @@
+Code.load_file("./10-sudoku-board.exs")
+
 defmodule SudokuSolver do
+  import Enum
+
+  def solve(board) do
+    board
+    |> solutions()
+    |> map(fn s -> apply_solution(board, s) end)
+    |> find(fn b -> SudokuBoard.solved?(b) end)
+  end
+
+
   @doc """
   Given a list of possibilities for each row, return all possible combinations.
   ## Example
