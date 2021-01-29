@@ -20,6 +20,29 @@ defmodule SudokuSolver do
     |> apply_solution(rest)
   end
 
+  def apply_solution(board, []), do: board
+
+  @doc """
+  Returns possible combinations for solving the board.
+  ## Example
+    iex> board = [[1,   nil, 3  ],
+                  [3,   nil, 2  ],
+                  [nil, 3,   nil]]
+    iex> SudokuSolver.solutions(board)
+    [[2, 1, 1, 2], [2, 1, 2, 1]]
+  """
+
+  def solutions(board) do
+    possibles(board) |> combinations()
+  end
+
+  defp possibles([row | rest]) do
+    possible = to_list(1..count(row)) -- row
+    [possible | possibles(rest)]
+  end
+
+  defp possibles([]), do: []
+
   @doc """
   Given a list of possibilities for each row, return all possible combinations.
   ## Example
