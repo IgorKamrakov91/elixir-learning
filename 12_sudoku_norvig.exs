@@ -58,6 +58,19 @@ defmodule SudokuSolver do
     end
     Enum.into(list, %{})
   end
+
+  @doc """
+  Convert grid to a Map of possible values, {square: digits}, or
+  return false if a contradiction is detected.
+  """
+
+  def parse_grid(grid, board) do
+    # To start, every square can be any digit; then assign values from the grid.
+    values = Enum.into((for square <- board.squares, do: {square, @cols}), %{})
+    do_parse_grid(values, Map.to_list(grid_values(grid)), board)
+  end
+
+  
 end
 
 ExUnit.start()
