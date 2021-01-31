@@ -113,10 +113,27 @@ defmodule SudokuSolver do
   # (1) If a square s is reduced to one value, then eliminate it from the peers.
   # (2) If a unit u is reduced to only one place for a value d, then put it there.
   def eliminate_vals_from_square(values, square, vals_to_remove, board) do
-
+    vals = Map.get(values, square)
+    if MapSet.intersection(Enum.into(vals, MapSet.new), Enum.into(vals_to_remove, MapSet.new)) |> any? do
+      vals = reduce(vals_to_remove, vals, fn val, vals -> List.delete(vals, val) end)
+      if length(vals) == 0 do
+        # contradiction, removed last value
+        false
+      else
+        values = Map.put(values, square, vals)
+        values = if length(vals) == 1 do
+          # eliminate value(s) from the peers.
+          eliminate(values, MapSet.to_list(Map.get(board.peers, square)), vals, board)
+        else
+          values
+        end
+        # eliminate value(s) from units
+        eliminate_from_units(values, Map.get(board.units, square), vals_to_remove, board)
+      end
+    else
+      values
+    end
   end
-
-
 end
 
 ExUnit.start()
