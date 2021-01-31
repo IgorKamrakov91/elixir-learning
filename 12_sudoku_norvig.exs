@@ -70,7 +70,23 @@ defmodule SudokuSolver do
     do_parse_grid(values, Map.to_list(grid_values(grid)), board)
   end
 
-  
+  defp do_parse_grid(values, [{square, value} | rest], board) do
+    values = do_parse_grid(values, rest, board)
+    if value in '0.' do
+      values
+    else
+      assign(values, square, value, board)
+    end
+  end
+  defp do_parse_grid(values, [], _), do: values
+
+  @doc """
+  Convert grid into a Map of {square: char} with '0' or '.' for empties.
+  """
+
+  def grid_values(grid) do
+    
+  end
 end
 
 ExUnit.start()
