@@ -134,6 +134,20 @@ defmodule SudokuSolver do
       values
     end
   end
+
+  #  If a unit u is reduced to only one place for a value d, then put it there.
+  defp eliminate_from_units(values, units, vals_to_remove, board) do
+    reduce_if_truthy units, values, fn units, values ->
+      reduce_if_truthy vals_to_remove, values, fn val, values ->
+        dplaces = for s <- unit, val in Map.get(values, s), do: s
+        case length(dplaces) do
+          0 -> false
+          1 -> assign(values, at(dplaces, 0), val, board)
+          _ -> values
+        end
+      end
+    end
+  end
 end
 
 ExUnit.start()
