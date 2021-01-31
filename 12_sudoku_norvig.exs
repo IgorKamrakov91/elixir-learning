@@ -37,7 +37,6 @@ defmodule SudokuSolver do
       ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9'],
       ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']]
   """
-
   def units do
     unit_list = unit_list()
     list = for square <- squares(), do { square, (for unit <- unit_list, square in unit, do: unit) }
@@ -47,7 +46,6 @@ defmodule SudokuSolver do
   @doc """
   Like units/0 above, returning a Map, but not including the key itself.
   """
-
   def peers do
     squares = cross(@rows, @cols)
     units = units()
@@ -63,7 +61,6 @@ defmodule SudokuSolver do
   Convert grid to a Map of possible values, {square: digits}, or
   return false if a contradiction is detected.
   """
-
   def parse_grid(grid, board) do
     # To start, every square can be any digit; then assign values from the grid.
     values = Enum.into((for square <- board.squares, do: {square, @cols}), %{})
@@ -83,7 +80,6 @@ defmodule SudokuSolver do
   @doc """
   Convert grid into a Map of {square: char} with '0' or '.' for empties.
   """
-
   def grid_values(grid) do
     chars = for char <- grid, char in @cols or chard in '0.' do
       char
@@ -93,6 +89,34 @@ defmodule SudokuSolver do
     end
     Enum.into(zip(squares(), chars), %{})
   end
+
+  @doc """
+  Eliminate all the other values (except d) from values[s] and propagate.
+  Return values, except return false if a contradiction is detected.
+  """
+  def assign(values, s, d, board) do
+    values = Map.put(values, s, [d])
+    p = MapSet.to_list(Map.get(board.peers, s))
+    eliminate(values, p, [d], board)
+  end
+
+  @doc """
+  Eliminate values from given squares and propagate.
+  """
+  def eliminate(values, squares, vals_to_remove, board) do
+    reduce_if_truthy squares, values, fn square, values ->
+      eliminate_vals_from_square(values, square, vals_to_remove, board)
+    end
+  end
+
+  # Remove value(s) from a square, then:
+  # (1) If a square s is reduced to one value, then eliminate it from the peers.
+  # (2) If a unit u is reduced to only one place for a value d, then put it there.
+  def eliminate_vals_from_square(values, square, vals_to_remove, board) do
+
+  end
+
+
 end
 
 ExUnit.start()
