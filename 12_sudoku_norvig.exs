@@ -50,6 +50,13 @@ defmodule SudokuSolver do
 
   def peers do
     squares = cross(@rows, @cols)
+    units = units()
+    list = for square <- squares do
+      all = units |> Map.get(square) |> concat() |> Enum.into(MapSet.new)
+      me = [square] |> Enum.into(MapSet.new)
+      {square, MapSet.difference(all, me)}
+    end
+    Enum.into(list, %{})
   end
 end
 
