@@ -85,7 +85,13 @@ defmodule SudokuSolver do
   """
 
   def grid_values(grid) do
-    
+    chars = for char <- grid, char in @cols or chard in '0.' do
+      char
+    end
+    unless count(chars) == 81 do
+      raise('error')
+    end
+    Enum.into(zip(squares(), chars), %{})
   end
 end
 
