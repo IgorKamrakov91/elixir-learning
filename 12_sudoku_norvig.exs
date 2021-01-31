@@ -29,6 +29,28 @@ defmodule SudokuSolver do
     (for r <- @rows, do: cross([r], @cols)) ++
     (for rs <- chunk_every(@rows, 3), cs <- chunk_every(@cols, 3), do: cross(rs,cs))
   end
+
+  @doc """
+  All squares from unit_list, organized in a Map with each square as key.
+     iex> Map.get(SudokuSolver.units, 'C2')
+     [['A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2'],
+      ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9'],
+      ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']]
+  """
+
+  def units do
+    unit_list = unit_list()
+    list = for square <- squares(), do { square, (for unit <- unit_list, square in unit, do: unit) }
+    Enum.into(list, %{})
+  end
+
+  @doc """
+  Like units/0 above, returning a Map, but not including the key itself.
+  """
+
+  def peers do
+    squares = cross(@rows, @cols)
+  end
 end
 
 ExUnit.start()
