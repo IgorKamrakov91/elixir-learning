@@ -148,6 +148,17 @@ defmodule SudokuSolver do
       end
     end
   end
+
+  # Similar to Enum.reduce/3 except it won't continue to call the work function
+  # if the accumulator becomes false or nil.
+  defp reduce_if_truthy(coll, acc, fun) do
+    reduce coll, acc, fn i, a ->
+      a && fun.(i, a)
+    end
+  end
+
+  # Given a puzzle char list, find the solution and return as a char list.
+  
 end
 
 ExUnit.start()
