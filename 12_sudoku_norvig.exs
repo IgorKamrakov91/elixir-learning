@@ -39,7 +39,7 @@ defmodule SudokuSolver do
   """
   def units do
     unit_list = unit_list()
-    list = for square <- squares(), do { square, (for unit <- unit_list, square in unit, do: unit) }
+    list = for square <- squares(), do: { square, (for unit <- unit_list, square in unit, do: unit) }
     Enum.into(list, %{})
   end
 
@@ -81,7 +81,7 @@ defmodule SudokuSolver do
   Convert grid into a Map of {square: char} with '0' or '.' for empties.
   """
   def grid_values(grid) do
-    chars = for char <- grid, char in @cols or chard in '0.' do
+    chars = for char <- grid, char in @cols or char in '0.' do
       char
     end
     unless count(chars) == 81 do
@@ -139,7 +139,7 @@ defmodule SudokuSolver do
   defp eliminate_from_units(values, units, vals_to_remove, board) do
     reduce_if_truthy units, values, fn units, values ->
       reduce_if_truthy vals_to_remove, values, fn val, values ->
-        dplaces = for s <- unit, val in Map.get(values, s), do: s
+        dplaces = for s <- units, val in Map.get(values, s), do: s
         case length(dplaces) do
           0 -> false
           1 -> assign(values, at(dplaces, 0), val, board)
@@ -217,13 +217,19 @@ defmodule SudokuSolverTest do
     grid1 = '..3.2.6..9..3.5..1..18.64....81.29..7.......8..67.82....26.95..8..2.3..9..5.1.3..'
     solved = solve(grid1)
     assert solved == '483921657967345821251876493548132976729564138136798245372689514814253769695417382'
-    print(grid1, solved)
+    # print(grid1, solved)
   end
 
   test "solve hard" do
     grid2 = '4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......'
     solved = solve(grid2)
     assert solved == '417369825632158947958724316825437169791586432346912758289643571573291684164875293'
-    print(grid2, solved)
+    # print(grid2, solved)
+  end
+
+  test "solve" do
+    grid3 = '..9748...7.........2.1.9.....7...24..64.1.59..98...3.....8.3.2.........6...2759..'
+    solved = solve(grid3)
+    print(grid3, solved)
   end
 end
