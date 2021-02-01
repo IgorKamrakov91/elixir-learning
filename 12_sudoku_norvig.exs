@@ -189,6 +189,14 @@ defmodule SudokuSolver do
       end)
     end
   end
+
+  # Display these values as a 2-D grid.
+  def display(grid) do
+    chunk_every(grid, @size)
+    |> map(fn row -> chunk_every(row, 1) |> join(" ") end)
+    |> join("\n")
+    |> IO.puts
+  end
 end
 
 ExUnit.start()
