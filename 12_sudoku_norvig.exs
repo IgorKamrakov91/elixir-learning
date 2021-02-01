@@ -158,7 +158,20 @@ defmodule SudokuSolver do
   end
 
   # Given a puzzle char list, find the solution and return as a char list.
-  
+  def solve(grid) do
+    board = %Board{squares: squares(), units: units(), peers: peers()}
+    grid
+    |> parse_grid(board)
+    |> search(board)
+    |> flatten(board)
+  end
+
+  # Flatten a values Map back into a single char list.
+  def flatten(values, board) do
+    board.squares
+    |> map(fn s -> Map.get(values, s) end)
+    |> concat
+  end
 end
 
 ExUnit.start()
