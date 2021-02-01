@@ -172,6 +172,23 @@ defmodule SudokuSolver do
     |> map(fn s -> Map.get(values, s) end)
     |> concat
   end
+
+  # Using depth-first search and propagation, try all possible values.
+  def search(false, _), do: false
+  def search(values, board) do
+    if all?(board.squares, fn s -> count(Map.get(values, s)) == 1 end) do
+      values # solved
+    else
+      {square, _count} = map(board.squares, &({&1, count(Map.get(values, &1))}))
+      |> filter(fn {_, c} -> c > 1 end)
+      |> sort(fn {_, c1}, {_, c2} -> c1 < c2 end)
+      |> List.first()
+
+      find_value(Map.get(values, square), fn d ->
+        assign(values, square, d, board) |> search(board)
+      end)
+    end
+  end
 end
 
 ExUnit.start()
