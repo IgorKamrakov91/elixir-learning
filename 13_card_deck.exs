@@ -44,4 +44,11 @@ defmodule DeckTest do
     assert Enum.at(deck, 0) == {"Hearts", 2}
     assert Enum.at(deck, 51) == {"Spades", "A"}
   end
+
+  test "shuffle" do
+    :random.seed(:erlang.now)
+    deck = Deck.shuffle
+    assert Deck.shuffle != deck
+    assert length(Deck.shuffle) == 52
+  end
 end
