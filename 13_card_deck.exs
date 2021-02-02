@@ -21,4 +21,15 @@ defmodule Deck do
     Returns the list of players.
   """
   def _deal([], players, _, _), do: {players, []}
+  def _deal(cards, players, _, 0), do: {players, cards}
+
+  def _deal([card | rest_cards], [player | rest_players], deal_fn, cards_left) do
+    player = deal_fn.(card, player)
+    _deal(rest_cards, rest_players ++ [player], deal_fn, cards_left - 1)
+  end
+
+  def deal(cards, players, deal_fn, cards_per_player \\ 52) do
+    cards_left = cards_per_player * Enum.count(players)
+    _deal(cards, players, deal_fn, cards_left)
+  end
 end
