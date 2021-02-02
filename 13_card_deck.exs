@@ -33,3 +33,15 @@ defmodule Deck do
     _deal(cards, players, deal_fn, cards_left)
   end
 end
+
+ExUnit.start
+
+defmodule DeckTest do
+  use ExUnit.Case
+
+  test "new" do
+    deck = Deck.new
+    assert Enum.at(deck, 0) == {"Hearts", 2}
+    assert Enum.at(deck, 51) == {"Spades", "A"}
+  end
+end
