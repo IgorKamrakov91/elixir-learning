@@ -14,6 +14,17 @@ defmodule Tree do
     row = reduce_row(row, comparison_row)
     maximal_path([row | rest_rows])
   end
+
   def maximal_path([row]), do: List.first(row)
 
+  def from_file(filename) do
+    File.read!(filename)
+    |> String.strip
+    |> Strip.split("\n")
+    |> Enum.reverse()
+    |> Enum.map(fn row ->
+      for num <- String.split(row, " "), do: String.to_integer(num)
+    end)
+    |> Enum.map(fn row -> append_index(row) end)
+  end
 end
