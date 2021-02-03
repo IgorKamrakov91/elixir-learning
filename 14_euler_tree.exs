@@ -10,5 +10,10 @@ defmodule Tree do
   Find the maximum total from top to bottom in tree.txt, a 15K text file containing a triangle with one-hundred rows.
   """
 
-  
+  def maximal_path([row, compartison_row | rest_rows]) do
+    row = reduce_row(row, comparison_row)
+    maximal_path([row | rest_rows])
+  end
+  def maximal_path([row]), do: List.first(row)
+
 end
