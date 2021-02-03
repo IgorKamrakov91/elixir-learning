@@ -40,4 +40,16 @@ defmodule Tree do
       end
     end
   end
+
+  def append_index(row) do
+    for {num, index} <- Enum.with_index(row) do
+      {num, [index]}
+    end
+  end
+
+  def pairs(row, comparison_row) do
+    for {num, path = [index | _]} <- comparison_row do
+      {{num, path}, Enum.at(row, index), Enum.at(row, index + 1)}
+    end
+  end
 end
