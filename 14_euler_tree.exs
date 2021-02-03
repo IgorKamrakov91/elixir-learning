@@ -52,4 +52,33 @@ defmodule Tree do
       {{num, path}, Enum.at(row, index), Enum.at(row, index + 1)}
     end
   end
+
+  def pretty_print(filename) do
+    tree = Tree.from_file(filename)
+    {sum, path} = Tree.maximal_path(tree)
+
+    IO.puts("maximal sum = #{sum}")
+
+    size = length(Enum.at(tree, 0))
+
+    tree
+    |> Enum.reverse()
+    |> Enum.with_index()
+    |> Enum.each(fn {row, row_index} ->
+      if rem(row_index, 2) == 0, do: IO.write(" ")
+      String.duplicate("  ", div(size - length(row), 2)) |> IO.write()
+      (for {_, [p | _]} <- row do
+          if p == Enum.at(path, row_index) do
+            "\e[31mx"
+          else
+            "\e[32mo"
+          end
+        end)
+          |> Enum.join(" ")
+          |> IO.puts
+      end)
+        |> Enum.join(" ")
+        |> IO.puts
+    end)
+  end
 end
