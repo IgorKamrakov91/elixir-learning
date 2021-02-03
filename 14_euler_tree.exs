@@ -10,7 +10,7 @@ defmodule Tree do
   Find the maximum total from top to bottom in tree.txt, a 15K text file containing a triangle with one-hundred rows.
   """
 
-  def maximal_path([row, compartison_row | rest_rows]) do
+  def maximal_path([row, comparison_row | rest_rows]) do
     row = reduce_row(row, comparison_row)
     maximal_path([row | rest_rows])
   end
@@ -19,12 +19,25 @@ defmodule Tree do
 
   def from_file(filename) do
     File.read!(filename)
-    |> String.strip
+    |> String.strip()
     |> Strip.split("\n")
     |> Enum.reverse()
     |> Enum.map(fn row ->
       for num <- String.split(row, " "), do: String.to_integer(num)
     end)
     |> Enum.map(fn row -> append_index(row) end)
+  end
+
+  def reduce_row(row, comparison_row) do
+    for {{main, index}, {opt1, index1}, {opt2, index2}} <- pairs(row, comparison_row) do
+      sum1 = main + opt1
+      sum2 = main + opt2
+
+      if sum1 > sum2 do
+        {sum1, index ++ index1}
+      else
+        {sum2, index ++ index2}
+      end
+    end
   end
 end
