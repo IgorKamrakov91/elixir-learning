@@ -41,8 +41,8 @@ defmodule Table do
       )
 
       if length(forks) >= 2 do
-        [{pid, _}, waiting] = waiting
-        [fork1, fork2 | forks] = forks
+        [{pid, _}, _waiting] = waiting
+        [fork1, fork2 | _forks] = forks
         send(pid, {:eat, [fork1, fork2]})
       end
     end
@@ -61,7 +61,7 @@ end
 
 defmodule Dine do
   def dine(phil, table) do
-    send(table, {:sit_table, self, phil})
+    send(table, {:sit_table, self(), phil})
 
     receive do
       {:eat, forks} ->
