@@ -50,3 +50,17 @@ defmodule Table do
     end
   end
 end
+
+defmodule Dine do
+  def dine(phil, table) do
+    send table, {:sit_table, self, phil}
+    receive do
+      {:eat, forks} ->
+        phil = eat(phil, forks, table)
+        phil = think(phil, table)
+    end
+    dine(phil, table)
+  end
+
+  
+end
