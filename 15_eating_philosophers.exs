@@ -62,5 +62,13 @@ defmodule Dine do
     dine(phil, table)
   end
 
-  
+  def eat(phil, forks, table) do
+
+  end
+
+  def think(phil, _) do
+    IO.puts "#{phil.name} is thinking (count: #{phil.thunk})"
+    :timer.sleep(:random.uniform(1000))
+    %{phil | thunk: phil.thunk + 1}
+  end
 end
