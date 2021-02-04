@@ -28,4 +28,17 @@ defmodule Table do
 
     receive do: (_ -> :ok)
   end
+
+  def manage_resources(forks, waiting \\ []) do
+    # distribute forks to waiting philosophers
+    if length(waiting) > 0 do
+      names = for {_, phil} <- waiting, do: phil.name
+      IO.puts "#{length waiting} philosopher#{if length(waiting) == 1, do: '', else: 's'} waiting: #{Enum.join names, ", "}"
+      if length(forks) >= 2 do
+        [{pid, _}, waiting] = waiting
+        [fork1, fork2 | forks] = forks
+        send pid, {:eat, [fork1, fork2]}
+      end
+    end
+  end
 end
