@@ -40,5 +40,13 @@ defmodule Table do
         send pid, {:eat, [fork1, fork2]}
       end
     end
+    receive do
+      {:sit_down, pid, phil} ->
+        manage_resources(forks, [{pid, phil} | waiting])
+      {:give_up_seat, free_forks, _} ->
+        forks = free_forks ++ forks
+        IO.puts "#{length forks} fork#{if length(forks) == 1, do: '', else: 's'} available"
+        manage_resources(forks, waiting)
+    end
   end
 end
