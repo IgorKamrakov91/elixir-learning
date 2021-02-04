@@ -87,3 +87,6 @@ defmodule Dine do
     %{phil | thunk: phil.thunk + 1}
   end
 end
+
+:random.seed(:erlang.now)
+Table.simulate
