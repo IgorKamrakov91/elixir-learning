@@ -57,4 +57,9 @@ defmodule PrimeFactorsServer do
 	def handle_call(num, _from, context) do
 		{:reply, prime_factors(num), context}
 	end
+	
+	# asynchronous
+	def handle_cast(num, context) do
+		{:noreply, [{num, prime_factors(num)} | context]}
+	end
 end
