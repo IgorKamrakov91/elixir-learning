@@ -80,4 +80,17 @@ defmodule PrimeFactorsTest do
 	  assert(prime?(11))
 	  assert(not prime?(8))
 	end
+	
+	test "async" do
+	  {:ok, pid} = PrimeFactorsServer.start_link
+		:gen_server.cast(pid, 10)
+		:gen_server.cast(pid, 100)
+		:gen_server.cast(pid, 1000)
+		assert :gen_server.call(pid, :flush) == [
+			{1000, [5, 5, 5, 2, 2, 2]},
+	    {100, [5, 5, 2, 2]},
+	    {10, [5, 2]}
+	  ]
+	  assert :gen_server.call(pid, :flush) == []
+	end
 end
