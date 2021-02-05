@@ -32,3 +32,16 @@ defmodule	PrimeFactors do
 		end
 	end
 end
+
+defmodule PrimeFactorsServer do
+  @moduledoc """
+  Wrap the PrimeFactors.prime_factors functionality in a server.
+  """
+	
+	use GenServer
+	import PrimeFactors
+	
+	def start_link do
+		:gen_server.start_link({:local, :prime_factors}, __MODULE__, [], [])
+	end
+end
