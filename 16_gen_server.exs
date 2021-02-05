@@ -44,4 +44,17 @@ defmodule PrimeFactorsServer do
 	def start_link do
 		:gen_server.start_link({:local, :prime_factors}, __MODULE__, [], [])
 	end
+	
+	def init(_args) do
+		{:ok, []}
+	end
+	
+	# synchronous
+	def handle_call(:flush, _from, context) do
+		{:reply, context, []}
+	end
+	
+	def handle_call(num, _from, context) do
+		{:reply, prime_factors(num), context}
+	end
 end
