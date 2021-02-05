@@ -17,4 +17,18 @@ defmodule	PrimeFactors do
 				prime_factors(number, div + 1, factors)	
 		end
 	end
+		
+	def prime?(2), do: true
+	def prime?(number) do
+		prime?(number, :math.sqrt(number) |> :erlang.trunc)
+	end
+	
+	defp prime?(_, 1), do: true
+	defp prime?(number, div) do
+		if rem(number, div) == 0 do
+			false
+		else
+			prime?(number, div - 1)
+		end
+	end
 end
