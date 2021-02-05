@@ -63,3 +63,15 @@ defmodule PrimeFactorsServer do
 		{:noreply, [{num, prime_factors(num)} | context]}
 	end
 end
+
+ExUnit.start
+
+defmodule PrimeFactorsTest do
+	use ExUnit.Case
+	import PrimeFactors
+	
+	test "prime_factors" do
+		assert prime_factors(10) == [5, 2]
+		assert prime_factors(100) == [5, 5, 2, 2]
+	end
+end
