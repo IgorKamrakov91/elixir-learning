@@ -74,4 +74,10 @@ defmodule PrimeFactorsTest do
 		assert prime_factors(10) == [5, 2]
 		assert prime_factors(100) == [5, 5, 2, 2]
 	end
+	
+	test "prime?" do
+		assert(prime?(2))
+	  assert(prime?(11))
+	  assert(not prime?(8))
+	end
 end
