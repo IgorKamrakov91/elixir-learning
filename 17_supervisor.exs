@@ -4,9 +4,14 @@
 Code.load_file("./16_gen_server.exs")
 
 defmodule PrimeFactorsServer.Sup do
-	use Supervisor
+  use Supervisor
 
-	def start_link do
-		:supervisor.start_link(__MODULE__, [])
+  def start_link do
+    :supervisor.start_link(__MODULE__, [])
+  end
+
+	def init(_opts) do
+		tree = [worker(PrimeFactorsServer, [])]
+		supervise(tree, strategy: :one_for_one)
 	end
 end
