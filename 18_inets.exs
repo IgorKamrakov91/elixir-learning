@@ -27,7 +27,8 @@ defmodule App do
         '/' -> 'hello world'
         _ -> ['hello', mod(data, :request_url)]
       end
-		{:proceed, [response: {200, response}]}
+
+    {:proceed, [response: {200, response}]}
   end
 end
 
