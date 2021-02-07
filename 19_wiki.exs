@@ -61,4 +61,9 @@ defmodule Wiki do
         response(404, 'bad path')
     end
   end
+
+  def redirect(path, code \\ 302) do
+    body = ['redirecting you to <a href="', path, '">', path, '</a>']
+    response(code, body, location: path)
+  end
 end
