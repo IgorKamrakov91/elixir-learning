@@ -35,4 +35,30 @@ defmodule Wiki do
     {:ok, _pid} = :inets.start(:httpd, options)
     IO.puts("running server on port 3000")
   end
+
+  def unquote(:do)(data) do
+    [_slash | name] = mod(data, :request_uri)
+
+    cond do
+      name == '' ->
+        redirect('/HomePage')
+
+      Regex.match?(@valid_page_name, :erlang.list_to_bitstring(name)) ->
+        case mod(data, :method) do
+          'GET' ->
+            render_page(name)
+
+          'POST' ->
+            save_page(name, data)
+            redirect(name)
+        end
+
+      Regex.match?(@edit_path, :erlang.list_to_bitstring(name)) ->
+        name = Regex.replace(~r/\/edit$/, :erlang.list_to_bitstring(name), "")
+        render_page(name, :edit)
+
+      true ->
+        response(404, 'bad path')
+    end
+  end
 end
