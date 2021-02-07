@@ -22,5 +22,17 @@ defmodule Wiki do
   """
 
   def run do
+    :inets.start()
+
+    options = [
+      server_name: 'foo',
+      server_root: '/tmp',
+      document_root: '/tmp',
+      port: 3000,
+      modules: [__MODULE__]
+    ]
+
+    {:ok, _pid} = :inets.start(:httpd, options)
+    IO.puts("running server on port 3000")
   end
 end
