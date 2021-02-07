@@ -66,4 +66,17 @@ defmodule Wiki do
     body = ['redirecting you to <a href="', path, '">', path, '</a>']
     response(code, body, location: path)
   end
+
+  def render_page(name, action \\ :show) do
+    case {action, File.read(page_path(name))} do
+      {:edit, {:ok, body}} ->
+        response(200, edit_page_form(name, body) |> :erlang.bitstring_to_list())
+
+      {:show, {:ok, body}} ->
+        response(200, body |> format(name) |> :erlang.bitstring_to_list())
+
+      _ ->
+        response(404, edit_page_form(name) |> :erlang.bitstring_to_list())
+    end
+  end
 end
