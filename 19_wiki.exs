@@ -103,4 +103,16 @@ defmodule Wiki do
     {:ok, regex} = Regex.compile(@page_name)
     Regex.replace(regex, content, "<a href='/\\0'>\\0</a>")
   end
+
+  def layoutify(content, name) do
+    """
+      <style>nav { margin-bottom: 25px; }</style>
+      <nav><a href='/HomePage'>HomePage</a> | <a href='/#{name}/edit'>edit</a></nav>
+      <section>#{content}</section>
+    """
+  end
+
+  def page_path(name) do
+    Path.join("support/wiki", name) |> Path.expand(__DIR__)
+  end
 end
