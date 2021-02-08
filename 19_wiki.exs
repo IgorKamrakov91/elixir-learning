@@ -87,4 +87,20 @@ defmodule Wiki do
     |> linkify
     |> layotify(name)
   end
+
+  def sanitize(content) do
+    content = Regex.replace(~r/&/, content, "\\&amp;")
+    content = Regex.replace(~r/</, content, "\\&lt;")
+    content = Regex.replace(~r/>/, content, "\\&gt;")
+    content
+  end
+
+  def breakify(content) do
+    Regex.replace(~r/\r?\n/, content, "<br>")
+  end
+
+  def linkify(content) do
+    {:ok, regex} = Regex.compile(@page_name)
+    Regex.replace(regex, content, "<a href='/\\0'>\\0</a>")
+  end
 end
