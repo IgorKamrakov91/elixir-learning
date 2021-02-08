@@ -120,4 +120,15 @@ defmodule Wiki do
     [{'content', content}] = :httpd.parse_query(mod(data, :entity_body))
     File.write!(page_path(name), content)
   end
+
+  def edit_page_form(name, content \\ "") do
+    "<form action='/#{name}' method='post'><textarea name='content' rows='25' cols='80'>#{content}</textarea><br><button>Save</button><a href='/#{name}'>cancel</a></form>"
+  end
+
+  def response(code, body, headers \\ []) do
+    headers = [code: code, content_length: Integer.to_char_list(IO.iodata_length(body))] ++ headers
+    {:proceed, [response: {:response, headers, body}]}
+  end
 end
+
+Wiki.run()
