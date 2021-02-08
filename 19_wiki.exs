@@ -79,4 +79,12 @@ defmodule Wiki do
         response(404, edit_page_form(name) |> :erlang.bitstring_to_list())
     end
   end
+
+  def format(content, name) do
+    content
+    |> sanitize
+    |> breakify
+    |> linkify
+    |> layotify(name)
+  end
 end
