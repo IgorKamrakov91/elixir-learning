@@ -115,4 +115,9 @@ defmodule Wiki do
   def page_path(name) do
     Path.join("support/wiki", name) |> Path.expand(__DIR__)
   end
+
+  def save_page(name, data) do
+    [{'content', content}] = :httpd.parse_query(mod(data, :entity_body))
+    File.write!(page_path(name), content)
+  end
 end
