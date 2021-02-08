@@ -85,7 +85,7 @@ defmodule Wiki do
     |> sanitize
     |> breakify
     |> linkify
-    |> layotify(name)
+    |> layoutify(name)
   end
 
   def sanitize(content) do
@@ -122,11 +122,15 @@ defmodule Wiki do
   end
 
   def edit_page_form(name, content \\ "") do
-    "<form action='/#{name}' method='post'><textarea name='content' rows='25' cols='80'>#{content}</textarea><br><button>Save</button><a href='/#{name}'>cancel</a></form>"
+    "<form action='/#{name}' method='post'><textarea name='content' rows='25' cols='80'>#{content}</textarea><br><button>Save</button><a href='/#{
+      name
+    }'>cancel</a></form>"
   end
 
   def response(code, body, headers \\ []) do
-    headers = [code: code, content_length: Integer.to_char_list(IO.iodata_length(body))] ++ headers
+    headers =
+      [code: code, content_length: Integer.to_char_list(IO.iodata_length(body))] ++ headers
+
     {:proceed, [response: {:response, headers, body}]}
   end
 end
