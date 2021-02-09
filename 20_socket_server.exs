@@ -25,7 +25,9 @@ defmodule WebServer do
             nil -> "You don't have a user-agent!"
             ua -> "Your User-Agent is: #{ua}"
           end
-
+				:gen_tcp.send(sock, :erlang.bitstring_to_list("HTTP/1.1 200 OK\r\n\r\n" <> msg <> "\r\n"))
+				:gen_tcp.close(sock)
+				accept_connection(lsock)
     end
   end
 end
