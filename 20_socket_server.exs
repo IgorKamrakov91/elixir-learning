@@ -6,7 +6,26 @@ defmodule WebServer do
   """
 
   def server do
-	{:ok, lsock} = :gen_tcp.listen(3000, [:binary, {:packet, 0}, {:active, false}])
-	accept_connection(lsock)
+    {:ok, lsock} = :gen_tcp.listen(3000, [:binary, {:packet, 0}, {:active, false}])
+    accept_connection(lsock)
+  end
+
+  def accept_connection(lsock) do
+    {:ok, sock} = :gen_tcp.accept(lsock)
+
+    case handle_request(sock) do
+      :closed ->
+        accept_connection(lsock)
+
+      request ->
+        IO.puts(inspect(request))
+
+        msg =
+          case extract_user_agent(request) do
+            nil -> "You don't have a user-agent!"
+            ua -> "Your User-Agent is: #{ua}"
+          end
+
+    end
   end
 end
