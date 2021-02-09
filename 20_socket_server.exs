@@ -33,7 +33,7 @@ defmodule WebServer do
   end
 
   def handle_request(sock, request \\ '') do
-		case :gen_tcp.recv(sock, 0)) do
+		case :gen_tcp.recv(sock, 0) do
 			{:ok, b} ->
 				if Regex.match?(~r/\r\n\r\n/, b) do
 					:erlang.list_to_bitstring([request, b])
@@ -44,4 +44,11 @@ defmodule WebServer do
 				:closed
 		end
   end
+
+	def extract_user_agent(request) do
+		case Regex.run(~r/User-Agent: (.*)\r\n/, request) do
+			nil -> nil
+			[_, ua] -> ua
+		end
+	end
 end
