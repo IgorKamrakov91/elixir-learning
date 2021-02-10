@@ -6,4 +6,11 @@ defmodule Fib do
   defmodule FibVal do
     defstruct val: 0, next: 1
   end
+
+  # Return a lazy sequence of FibVals.
+  def fib do
+    Stream.iterate(%FibVal{}, fn %FibVal{val: val, next: next} ->
+      %FibVal{val: next, next: val + next}
+    end)
+  end
 end
