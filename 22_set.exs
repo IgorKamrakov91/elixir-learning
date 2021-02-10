@@ -16,4 +16,11 @@ defmodule SetTest do
     # unintuitive, but somewhat more understandable
     assert Set.to_list(union) == [2, 3, 4, 1]
   end
+
+  test "intersection" do
+  end
+
+  test "member?" do
+    refute Enum.into([1, 3, 5], HashSet.new()) |> HashSet.member?(2)
+  end
 end
