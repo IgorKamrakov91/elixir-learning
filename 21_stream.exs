@@ -25,12 +25,12 @@ defmodule FibTest do
   use ExUnit.Case
 
   test "fib" do
-    fib = Fib.fib |> Stream.map(&(&1.val)) |> Enum.take(10)
+    fib = Fib.fib() |> Stream.map(& &1.val) |> Enum.take(10)
     assert fib == [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
   end
 
   test "fib2" do
-    fib = Fib.fib2 |> Enum.take(10)
+    fib = Fib.fib2() |> Enum.take(10)
     assert fib == [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
   end
 end
