@@ -13,4 +13,8 @@ defmodule Fib do
       %FibVal{val: next, next: val + next}
     end)
   end
+
+  def fib2 do
+    Stream.unfold({0, 1}, fn {a, b} -> {a, {b, a + b}} end)
+  end
 end
