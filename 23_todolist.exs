@@ -1,14 +1,14 @@
 # Playing with abstractions
 
 defmodule TodoList do
-  def new(), do: %{}
+  def new(), do: MultiList.new()
 
   def add_entry(todo_list, date, title) do
-    Map.update(todo_list, date, [title], fn titles -> [title | titles] end)
+    MultiList.add(todo_list, date, title)
   end
 
   def entries(todo_list, date) do
-    Map.get(todo_list, date, [])
+    MultiList.get(todo_list, date)
   end
 end
 
